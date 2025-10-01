@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-semibold mb-4">Statistics</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+  <div class="bg-white border rounded p-4">
+    <div class="text-gray-600">Books</div>
+    <div class="text-2xl font-bold">{{ counts.books }}</div>
+  </div>
+  <div class="bg-white border rounded p-4">
+    <div class="text-gray-600">Authors</div>
+    <div class="text-2xl font-bold">{{ counts.authors }}</div>
+  </div>
+  <div class="bg-white border rounded p-4">
+    <div class="text-gray-600">Links</div>
+    <div class="text-2xl font-bold">{{ counts.links }}</div>
+  </div>
+  </div>
+
+<div class="bg-white border rounded p-4">
+  <h3 class="font-medium mb-2">Books per Year</h3>
+  <canvas id="chart" height="100"></canvas>
+</div>
+
+<script id="chart-data" type="application/json">{{ { 'labels': years, 'series': counts_by_year } | tojson }}</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const dataEl = document.getElementById('chart-data');
+const chartData = JSON.parse(dataEl.textContent);
+const ctx = document.getElementById('chart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: chartData.labels,
+    datasets: [{
+      label: 'Books',
+      data: chartData.series,
+      backgroundColor: 'rgba(99, 102, 241, 0.5)',
+      borderColor: 'rgb(79, 70, 229)',
+      borderWidth: 1
+    }]
+  },
+  options: { scales: { y: { beginAtZero: true } } }
+});
+</script>
+{% endblock %}

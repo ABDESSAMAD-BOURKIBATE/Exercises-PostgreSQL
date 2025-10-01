@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-semibold mb-4">Book Details</h2>
+<div class="bg-white border rounded p-4">
+  <div class="font-medium">{{ item.title }} <span class="text-sm text-gray-500">({{ item.year }})</span></div>
+  <div class="text-sm text-gray-600 mt-2">Authors:
+    {% if authors %}
+      {{ (authors | map(attribute='name') | list) | join(', ') }}
+    {% else %}
+      <em>None</em>
+    {% endif %}
+  </div>
+  <div class="mt-4">
+    <a class="px-3 py-1 border rounded" href="{{ url_for('books_index') }}">Back</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="flex items-center justify-between mb-4">
+  <h2 class="text-xl font-semibold">{{ 'Books' if entity=='books' else 'Authors' }}</h2>
+  <div class="space-x-2">
+    <a class="px-3 py-2 bg-indigo-600 text-white rounded" href="{{ url_for(entity + '_create') }}">Create</a>
+  </div>
+  </div>
+
+<form method="get" class="mb-4 flex gap-2">
+  <input class="border p-2 rounded w-full" name="q" value="{{ q or '' }}" placeholder="Search by name/title">
+  <button class="px-3 py-2 bg-gray-700 text-white rounded" type="submit"><i class="bi bi-search"></i></button>
+</form>
+
+{% if entity=='books' %}
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {% for it in items %}
+    <div class="bg-white border rounded p-3">
+      <div class="font-medium">{{ it.title }} <span class="text-sm text-gray-500">({{ it.year }})</span></div>
+      <div class="text-sm text-gray-600">Authors: {{ (it.authors or []) | join(', ') }}</div>
+      <div class="mt-2 flex gap-2">
+        <a class="px-3 py-1 bg-blue-600 text-white rounded" href="{{ url_for('books_edit', book_id=it.book_id) }}">Edit</a>
+        <form method="post" action="{{ url_for('books_delete', book_id=it.book_id) }}" onsubmit="return confirm('Delete this book?')">
+          <button class="px-3 py-1 bg-red-600 text-white rounded" type="submit">Delete</button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+{% else %}
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {% for it in items %}
+    <div class="bg-white border rounded p-3 flex items-center justify-between">
+      <div class="font-medium">{{ it.name }}</div>
+      <div class="flex gap-2">
+        <a class="px-3 py-1 bg-blue-600 text-white rounded" href="{{ url_for('authors_edit', author_id=it.author_id) }}">Edit</a>
+        <form method="post" action="{{ url_for('authors_delete', author_id=it.author_id) }}" onsubmit="return confirm('Delete this author?')">
+          <button class="px-3 py-1 bg-red-600 text-white rounded" type="submit">Delete</button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+{% endif %}
+
+<div class="mt-4 flex items-center justify-between">
+  <div class="text-sm text-gray-600">Total: {{ total }} | Page {{ page }} / {{ pages }}</div>
+  <div class="flex gap-2">
+    {% if page > 1 %}
+      <a class="px-3 py-1 border rounded" href="?page={{ page-1 }}&q={{ q or '' }}">Prev</a>
+    {% endif %}
+    {% if page < pages %}
+      <a class="px-3 py-1 border rounded" href="?page={{ page+1 }}&q={{ q or '' }}">Next</a>
+    {% endif %}
+  </div>
+  </div>
+{% endblock %}

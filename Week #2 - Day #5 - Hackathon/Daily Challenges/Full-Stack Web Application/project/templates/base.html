@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Manager</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body class="bg-gray-50">
+  <nav class="bg-indigo-600 text-white">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="{{ url_for('books_index') }}" class="font-semibold">Library Manager</a>
+      <div class="space-x-2">
+        <a class="hover:underline" href="{{ url_for('books_index') }}">Books</a>
+        <a class="hover:underline" href="{{ url_for('authors_index') }}">Authors</a>
+        <a class="hover:underline" href="{{ url_for('stats') }}">Stats</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-5xl mx-auto px-4 py-6">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="space-y-2 mb-4">
+        {% for category, message in messages %}
+          <div class="p-3 rounded {{ 'bg-green-100 text-green-800' if category=='success' else ('bg-red-100 text-red-800' if category=='error' else 'bg-blue-100 text-blue-800') }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

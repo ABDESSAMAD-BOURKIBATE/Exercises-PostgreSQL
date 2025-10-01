@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Install Full-Stack Web App deps",
+			"type": "shell",
+			"command": "C:\\Users\\LENOVO\\Exercises PostgreSQL\\.venv\\Scripts\\python.exe",
+			"args": [
+				"-m",
+				"pip",
+				"install",
+				"-r",
+				"C:\\Users\\LENOVO\\Exercises PostgreSQL\\Week #2 - Day #5 - Hackathon\\Daily Challenges\\Full-Stack Web Application\\requirements.txt"
+			],
+			"problemMatcher": [
+				"$eslint-stylish"
+			],
+			"group": "build"
+		}
+	]
+}

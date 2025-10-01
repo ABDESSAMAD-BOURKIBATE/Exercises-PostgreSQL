@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-semibold mb-4">Create {{ 'Book' if entity=='books' else 'Author' }}</h2>
+<form method="post" class="space-y-3">
+  {% if entity=='books' %}
+    <div>
+      <label class="block text-sm">Title</label>
+      <input name="title" class="border p-2 rounded w-full" maxlength="120" required>
+    </div>
+    <div>
+      <label class="block text-sm">Year</label>
+      <input type="number" name="year" class="border p-2 rounded w-full" required>
+    </div>
+    <div>
+      <label class="block text-sm">Assign Authors (optional)</label>
+      <div class="grid grid-cols-2 gap-2 max-h-48 overflow-auto border p-2 rounded">
+        {% for a in authors %}
+          <label class="flex items-center gap-2"><input type="checkbox" name="authors" value="{{ a.author_id }}"> {{ a.name }}</label>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <div>
+      <label class="block text-sm">Name</label>
+      <input name="name" class="border p-2 rounded w-full" maxlength="120" required>
+    </div>
+  {% endif %}
+  <div class="flex gap-2">
+    <button class="px-4 py-2 bg-indigo-600 text-white rounded" type="submit">Create</button>
+    <a class="px-4 py-2 border rounded" href="{{ url_for(entity + '_index') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}
